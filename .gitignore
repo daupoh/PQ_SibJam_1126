@@ -72,3 +72,7 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Monolith: commit prebuilt editor DLLs so Blueprint-only teammates can open the project
+!Plugins/Monolith/Binaries/Win64/
+!Plugins/Monolith/Binaries/Win64/*.dll

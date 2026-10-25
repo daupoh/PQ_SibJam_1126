@@ -1,0 +1,26 @@
+{
+	"BuildId": "47537391",
+	"Modules": 
+	{
+		"MonolithAI": "UnrealEditor-MonolithAI.dll",
+		"MonolithAnimation": "UnrealEditor-MonolithAnimation.dll",
+		"MonolithAudio": "UnrealEditor-MonolithAudio.dll",
+		"MonolithAudioRuntime": "UnrealEditor-MonolithAudioRuntime.dll",
+		"MonolithBABridge": "UnrealEditor-MonolithBABridge.dll",
+		"MonolithBlueprint": "UnrealEditor-MonolithBlueprint.dll",
+		"MonolithComboGraph": "UnrealEditor-MonolithComboGraph.dll",
+		"MonolithConfig": "UnrealEditor-MonolithConfig.dll",
+		"MonolithCore": "UnrealEditor-MonolithCore.dll",
+		"MonolithEditor": "UnrealEditor-MonolithEditor.dll",
+		"MonolithGAS": "UnrealEditor-MonolithGAS.dll",
+		"MonolithIndex": "UnrealEditor-MonolithIndex.dll",
+		"MonolithLevelSequence": "UnrealEditor-MonolithLevelSequence.dll",
+		"MonolithLogicDriver": "UnrealEditor-MonolithLogicDriver.dll",
+		"MonolithMaterial": "UnrealEditor-MonolithMaterial.dll",
+		"MonolithMesh": "UnrealEditor-MonolithMesh.dll",
+		"MonolithNiagara": "UnrealEditor-MonolithNiagara.dll",
+		"MonolithReflectionIntel": "UnrealEditor-MonolithReflectionIntel.dll",
+		"MonolithSource": "UnrealEditor-MonolithSource.dll",
+		"MonolithUI": "UnrealEditor-MonolithUI.dll"
+	}
+}
