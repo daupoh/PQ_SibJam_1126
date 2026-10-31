@@ -13,7 +13,10 @@
 		},
 		{
 			"Name": "Monolith",
-			"Enabled": true
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
 		}
 	]
 }
