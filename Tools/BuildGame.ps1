@@ -1,5 +1,6 @@
 <#
-  Packages the game (Win64 Shipping) into C:\Users\boyko\Desktop\Build\PQ_SibJam_v<version>.
+  Packages the game (Win64 Shipping) into C:\Users\boyko\Desktop\Build\CAPULE_v<version>,
+  with the launcher renamed to CAPULE.exe.
 
   The UnrealClaude engine plugin starts an HTTP server on port 3000 even inside the cook
   commandlet; while the editor is open that port is taken and the cook fails. So the plugin
@@ -21,7 +22,8 @@ $ErrorActionPreference = 'Stop'
 $ProjectDir = Split-Path -Parent $PSScriptRoot
 $Uproject = Join-Path $ProjectDir 'PQ_SibJam1126.uproject'
 $Backup = "$Uproject.prebuild.bak"
-$Prefix = 'PQ_SibJam_v'
+$Prefix = 'CAPULE_v'
+$GameName = 'CAPULE'
 $Utf8NoBom = New-Object System.Text.UTF8Encoding $false
 
 # A previous run was killed before it could restore the project file.
@@ -79,4 +81,25 @@ if ($exitCode -ne 0) {
 # UAT archives into <dir>\Windows; move that up into the versioned folder.
 Move-Item (Join-Path $Staging 'Windows') $Target
 Remove-Item $Staging -Recurse -Force
-Write-Host "Build OK: $Target" -ForegroundColor Green
+
+# The root launcher only forwards to <Project>\Binaries, so it can be renamed freely.
+$launcher = Join-Path $Target ([IO.Path]::GetFileNameWithoutExtension($Uproject) + '.exe')
+if (Test-Path $launcher) { Rename-Item $launcher "$GameName.exe" }
+
+# Zip copy next to the folder. Entries are written by hand: Compress-Archive chokes on files
+# over 2 GB in Windows PowerShell 5.1, and ZipFile.CreateFromDirectory stores '\' separators
+# that non-Windows unzippers (and itch.io) treat as part of the file name.
+$Zip = "$Target.zip"
+Write-Host "Zipping -> $Zip"
+Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
+if (Test-Path $Zip) { Remove-Item $Zip -Force }
+$baseLen = (Split-Path -Parent $Target).Length + 1
+$archive = [IO.Compression.ZipFile]::Open($Zip, [IO.Compression.ZipArchiveMode]::Create)
+try {
+    Get-ChildItem $Target -Recurse -File | ForEach-Object {
+        $entry = $_.FullName.Substring($baseLen).Replace('\', '/')
+        [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $_.FullName, $entry, [IO.Compression.CompressionLevel]::Optimal)
+    }
+}
+finally { $archive.Dispose() }
+Write-Host "Build OK: $Target (+ $Zip)" -ForegroundColor Green
